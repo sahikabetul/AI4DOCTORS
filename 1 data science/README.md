@@ -1,29 +1,21 @@
-# Data-Driven Analysis of Mythes About Stroke Causes
-## A data based approach using Stroke Prediction data from 2021
-A stroke occurs when the blood supply to part of your brain is interrupted or reduced, preventing brain tissue from getting oxygen and nutrients. Brain cells begin to die in minutes. A stroke is a medical emergency, and prompt treatment is crucial. Early action can reduce brain damage and other complications. The good news is that many fewer Americans die of stroke now than in the past. Effective treatments can also help prevent disability from stroke.
+# Medical-Appointment-NoShow-Prediction | Which Patient will not Come to the Appointment?
+## Solution to a daily life problem guided by 'Medical Appointment No Shows' data from 2016
 
-<img src="https://www.researchgate.net/profile/Fabio-Chiodo-Grandi/publication/44599636/figure/fig1/AS:196042852179975@1423751666328/Follow-up-brain-CT-scans-of-two-stroke-patients-Two-examples-of-CT-scans-of-two-stroke.png" width="800px" height="auto">
+<img src="https://img.freepik.com/free-vector/set-doctor-patient-cartoon-characters_36082-522.jpg?size=626&ext=jpg" width="800px" height="auto">
 
-This project for understand what are the reasons that cause stroke to peoeple and see if we can succefully detect stroke on some features using ML technics.
+Not coming to examination appointments is a negative situation for the health system as well as the patient.
+
+Patients who do not come to their appointment on time cause an interruption in the scheduling process. If they do not come at all, they waste the doctor's time, and if they come late, they cause the doctor to do extra work. In both cases, the efficiency of the health system reduces.
+
+There are monetary costs associated with no-shows. A study highlighted in Health Management Technology found that missed appointments in the U.S. costs the industry an astounding $150 billion dollars. On average, each physician loses $200 per unused time slot.
 
 ## Motivation for the Project
-There are several mythes about stroke. I tested the validity of a three of them and wrote a Medium blog post:
-
-1. "Is stroke only old people's problem?"
-2. "People living in city are at high risk of stroke?"
-3. "Smokers are more prone to stroke?"
-
-And also I wonder how to predict stroke and try to solve this problem with different machine learning models.
+Investigate the reason why some patients do not show up to their scheduled appointments and find the probability of missing the appointment.
 
 ## Summary of the Results of the Analysis
+Best model: Random Forest Classifier , f1-score: 0.88, Accuracy: 0.79
 
-1. We analyzed data for “stroke only old people’s problem” myth, which showed that although stroke is common in older patients, it is also seen in younger patients.
-2. We then looked at the “people living in the city are at high risk of stroke” myth. The data showed us that there is no significant difference between the two groups.
-3. Finally, we looked at the “smokers are more prone to stroke”. We found that, surprisingly, stroke is more prone in the group of non-smokers. This may be a biased assessment due to other factors.
-
-According to accuracy, XGboost seems as best predictor model. But according to f1-scores, best model is random forest classifier with grad-searched parameters. Accuracy value can be misleading for unbalanced datasets. f1-score gives better insight such this situations.
-
-Best model: Random Forest Classifier , f1-score: 0.19, Accuracy: 0.79
+According to trained models feature importance, we could see that Gender, Scholarship, Hypertension and Diabetes are some of the top features that would help us determine if the patient who has taken an appointment will show/no-how.
 
 ## Libraries Used
 
@@ -32,26 +24,27 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import plotly.graph_objs as go
+import lightgbm as lgb
 
-from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LinearRegression,LogisticRegression
-from sklearn.tree import DecisionTreeRegressor,DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.metrics import classification_report,confusion_matrix,f1_score
-from plotly.subplots import make_subplots
-from sklearn.metrics import accuracy_score, confusion_matrix, roc_auc_score, ConfusionMatrixDisplay, precision_score, recall_score, f1_score, classification_report, roc_curve, plot_roc_curve, auc, precision_recall_curve, plot_precision_recall_curve, average_precision_score
-from imblearn.over_sampling import SMOTE
-from sklearn.model_selection import GridSearchCV
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier, AdaBoostClassifier, ExtraTreesClassifier
+from sklearn.metrics import classification_report,confusion_matrix,f1_score, make_scorer
+from sklearn.metrics import accuracy_score, confusion_matrix, roc_auc_score, f1_score, classification_report
+from sklearn.model_selection import GridSearchCV, GroupShuffleSplit
+from sklearn.ensemble import GradientBoostingClassifier
+from catboost import CatBoostClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 ```
 
 ## Files in the Repository
-- **healthcare-dataset-stroke-data.csv:** the used dataset.
-- **Stroke Predictions.ipynb:** the notebook of the project.
+**KaggleV2-May-2016.csv:** the used dataset.
+
+**Medical Appointment Show-Up Prediction.ipynb:** the notebook of the project.
 
 ## Medium Blog Post
 Lets go to my Medium blog post: 
-[Data-Driven Analysis of Mythes About Stroke Causes](https://medium.com/@sahika.betul/data-driven-analysis-of-mythes-about-stroke-causes-dd347899bba5)
+[Which Patient will not Come to the Appointment? | End-to-End Machine Learning Code Example](https://medium.com/@sahika.betul/which-patient-will-not-come-to-the-appointment-end-to-end-machine-learning-code-example-e952f65888ac)
